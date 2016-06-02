@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Scraper</title>
+	<link rel="stylesheet" href="css/foundation.css">
+
+  	<!-- This is how you would link your custom stylesheet -->
+  	<link rel="stylesheet" href="css/app.css">
+
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+</head>
+<body>
+	<div class="title-bar">
+  		<div class="title-bar-left">
+    		<span class="title-bar-title">Web Scraper</span>
+  		</div>
+	</div>
+	<button type="button" class="success button" id="scraper">Scrape ign.com</button>
+</body>
+<script type="text/javascript">
+	var currentURL = window.location.origin;
+	var articles = [];
+	var item = {
+		title: "",
+		desc: "",
+		comment: ""
+	};
+	var title, desc;
+	$("#scraper").on("click", function(err) {
+		$.get(currentURL + "/read", function(data){
+			for(var i = 0; i < data.length; i++)
+			{
+				title = data[i].title.split("\n");
+				title = title.filter(function(str) {
+				    return /\S/.test(str);
+				});
+				desc = title[1].split(" - ");
+				desc = desc[1];
+				desc = desc.substring(0, desc.length - 11);
+				item.title = title[0];
+				item.desc = desc;
+				articles.push(item);
+				console.log(articles);
+			}
+			//$.post(currentURL + "/enter", articles, function(data){
+
+			//})
+		});
+	});
+</script>
+</html>
