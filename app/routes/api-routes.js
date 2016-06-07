@@ -20,8 +20,10 @@ module.exports = function(app) {
 		            title: title
 		        })
 		    })
-		    //console.log(result);
 		    res.send(result);
     	});
+	});
+	app.post('/enter', function(req, res) {
+		
 	});
 }

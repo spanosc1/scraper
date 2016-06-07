@@ -19,13 +19,12 @@
 </body>
 <script type="text/javascript">
 	var currentURL = window.location.origin;
-	var articles = [];
 	var item = {
 		title: "",
 		desc: "",
 		comment: ""
 	};
-	var title, desc;
+	var title, description;
 	$("#scraper").on("click", function(err) {
 		$.get(currentURL + "/read", function(data){
 			for(var i = 0; i < data.length; i++)
@@ -34,17 +33,24 @@
 				title = title.filter(function(str) {
 				    return /\S/.test(str);
 				});
-				desc = title[1].split(" - ");
-				desc = desc[1];
-				desc = desc.substring(0, desc.length - 11);
-				item.title = title[0];
-				item.desc = desc;
-				articles.push(item);
-				console.log(articles);
+				if(title.length == 3)
+				{
+					var desc = title[1].split(" - ");
+					if(desc.length == 2)
+					{
+						description = desc[1];
+						if(description != null)
+						{
+							description = description.substring(0, description.length - 11);
+							item.title = title[0];
+							item.desc = description;
+							$.post(currentURL + "/enter", item, function(data){
+								
+							});
+						}
+					}
+				}
 			}
-			//$.post(currentURL + "/enter", articles, function(data){
-
-			//})
 		});
 	});
 </script>
